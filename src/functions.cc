@@ -18,42 +18,41 @@ void InitializeBoard(std::vector<std::vector<char>>& board) {
   }
 }
 
-bool MakeMove(std::vector<std::vector<char>>& board,
-              int row,
-              int col,
-              char player) {
-  if (row <= 0 || row > kBoardSize || col <= 0 || col > kBoardSize) {
+bool MakeMove(std::vector<std::vector<char>>& board, int row, int col, char player) {
+  if (row < 0 || row > kBoardSize || col < 0 || col > kBoardSize) { //board is 0 index, row=0 and col=0 are valid
     std::cerr << "Error: Move out of bounds!\n";
     return false;
   }
-  if (board[col][row] != ' ') {
+  if (board[row][col] != ' ') {                                     //row then col, not vice versa
     std::cerr << "Error: Cell already occupied!\n";
     return false;
   }
-  board[col][row] = player;
+  board[row][call] = player;                                        //see 29
   return true;
 }
 
 char CheckWinner(const std::vector<std::vector<char>>& board) {
   for (unsigned int i = 0; i < kBoardSize; ++i) {
-    if (board[i][0] == board[i][1] && board[i][1] == board[i][2] &&
-        board[i][0] != ' ') {
-      return board[0][i];
+    if (board[i][0] == board[i][1] && board[i][1] == board[i][2] && board[i][0] != ' ') {
+      return board[i][0];                                           //swap i and 0
     }
   }
 
   for (unsigned int i = 0; i < kBoardSize; ++i) {
-    if (board[0][i] == board[1][i] && board[1][i] == board[2][i] &&
-        board[0][i] != ' ') {
-      return board[i][0];
+    if (board[0][i] == board[1][i] && board[1][i] == board[2][i] && board[0][i] != ' ') {
+      return board[0][i];                                           //swap i and 0
     }
   }
 
-  if (board[0][2] == board[1][1] && board[1][1] == board[2][0] &&
-      board[0][2] != ' ') {
+  // main diagonal
+  if (board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[0][0] != ' ') {
     return board[0][0];
   }
-  return ' ';
+
+  // anti-diagonal
+  if (board[0][2] == board[1][1] && board[1][1] == board[2][0] && board[0][2] != ' ') {
+    return board[0][2];
+  }
 }
 
 bool IsBoardFull(const std::vector<std::vector<char>>& board) {
