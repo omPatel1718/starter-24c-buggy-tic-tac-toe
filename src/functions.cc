@@ -27,7 +27,7 @@ bool MakeMove(std::vector<std::vector<char>>& board, int row, int col, char play
     std::cerr << "Error: Cell already occupied!\n";
     return false;
   }
-  board[row][call] = player;                                        //see 29
+  board[row][cell] = player;                                        //see 29
   return true;
 }
 
